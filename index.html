@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>School Kit Donation Manager</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'bright-blue': '#3B82F6',
+                        'sunny-yellow': '#FCD34D',
+                        'fresh-green': '#10B981',
+                        'warm-orange': '#F97316'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #3B82F6 0%, #10B981 50%, #FCD34D 100%);
+        }
+        .card-hover {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        .section-hidden {
+            display: none;
+        }
+        .section-visible {
+            display: block;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <div class="text-2xl font-bold text-bright-blue">📚 School Kit Donation Manager</div>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <button onclick="showSection('home')" class="nav-btn text-gray-700 hover:text-bright-blue px-3 py-2 rounded-md text-sm font-medium transition-colors">Home</button>
+                        <button onclick="showSection('donors')" class="nav-btn text-gray-700 hover:text-bright-blue px-3 py-2 rounded-md text-sm font-medium transition-colors">Donors</button>
+                        <button onclick="showSection('beneficiaries')" class="nav-btn text-gray-700 hover:text-bright-blue px-3 py-2 rounded-md text-sm font-medium transition-colors">Beneficiaries</button>
+                        <button onclick="showSection('ngos')" class="nav-btn text-gray-700 hover:text-bright-blue px-3 py-2 rounded-md text-sm font-medium transition-colors">NGOs</button>
+                        <button onclick="showSection('about')" class="nav-btn text-gray-700 hover:text-bright-blue px-3 py-2 rounded-md text-sm font-medium transition-colors">About Us</button>
+                        <button onclick="showSection('contact')" class="nav-btn text-gray-700 hover:text-bright-blue px-3 py-2 rounded-md text-sm font-medium transition-colors">Contact</button>
+                    </div>
+                </div>
+                <div class="md:hidden">
+                    <button onclick="toggleMobileMenu()" class="text-gray-700 hover:text-bright-blue">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div id="mobile-menu" class="md:hidden hidden bg-white border-t">
+            <div class="px-2 pt-2 pb-3 space-y-1">
+                <button onclick="showSection('home')" class="block text-gray-700 hover:text-bright-blue px-3 py-2 rounded-md text-base font-medium w-full text-left">Home</button>
+                <button onclick="showSection('donors')" class="block text-gray-700 hover:text-bright-blue px-3 py-2 rounded-md text-base font-medium w-full text-left">Donors</button>
+                <button onclick="showSection('beneficiaries')" class="block text-gray-700 hover:text-bright-blue px-3 py-2 rounded-md text-base font-medium w-full text-left">Beneficiaries</button>
+                <button onclick="showSection('ngos')" class="block text-gray-700 hover:text-bright-blue px-3 py-2 rounded-md text-base font-medium w-full text-left">NGOs</button>
+                <button onclick="showSection('about')" class="block text-gray-700 hover:text-bright-blue px-3 py-2 rounded-md text-base font-medium w-full text-left">About Us</button>
+                <button onclick="showSection('contact')" class="block text-gray-700 hover:text-bright-blue px-3 py-2 rounded-md text-base font-medium w-full text-left">Contact</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Home Section -->
+    <section id="home" class="section-visible">
+        <!-- Hero Section -->
+        <div class="gradient-bg text-white py-20">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center">
+                    <h1 class="text-4xl md:text-6xl font-bold mb-6">Every Child Deserves Education</h1>
+                    <p class="text-xl md:text-2xl mb-8 max-w-3xl mx-auto">Help us bridge the gap by providing essential school supplies to underprivileged children. Together, we can make education accessible to all.</p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                        <button onclick="showSection('donors')" class="bg-white text-bright-blue px-8 py-4 rounded-full font-semibold text-lg hover:bg-gray-100 transition-colors">Donate Now</button>
+                        <button onclick="showSection('beneficiaries')" class="border-2 border-white text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-white hover:text-bright-blue transition-colors">Request Help</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Impact Section -->
+        <div class="py-16 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Our Impact</h2>
+                    <p class="text-xl text-gray-600">Making a difference, one school kit at a time</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                    <div class="text-center">
+                        <div class="text-6xl mb-4">📚</div>
+                        <div class="text-3xl font-bold text-bright-blue mb-2">2,500+</div>
+                        <div class="text-gray-600">School Kits Donated</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-6xl mb-4">👨‍🎓</div>
+                        <div class="text-3xl font-bold text-fresh-green mb-2">5,000+</div>
+                        <div class="text-gray-600">Students Helped</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-6xl mb-4">🏫</div>
+                        <div class="text-3xl font-bold text-warm-orange mb-2">150+</div>
+                        <div class="text-gray-600">Schools Reached</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-6xl mb-4">❤️</div>
+                        <div class="text-3xl font-bold text-red-500 mb-2">1,200+</div>
+                        <div class="text-gray-600">Kind Donors</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- How It Works -->
+        <div class="py-16 bg-gray-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">How It Works</h2>
+                    <p class="text-xl text-gray-600">Simple steps to make a big difference</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="bg-white p-8 rounded-xl shadow-lg card-hover text-center">
+                        <div class="text-6xl mb-4">🎁</div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-4">1. Donate</h3>
+                        <p class="text-gray-600">Choose what to donate - school kits, books, uniforms, or funds. Every contribution matters!</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-xl shadow-lg card-hover text-center">
+                        <div class="text-6xl mb-4">🤝</div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-4">2. Connect</h3>
+                        <p class="text-gray-600">We match your donations with verified schools and NGOs that need them most.</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-xl shadow-lg card-hover text-center">
+                        <div class="text-6xl mb-4">📈</div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-4">3. Impact</h3>
+                        <p class="text-gray-600">See the direct impact of your generosity on children's education and future.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Call to Action -->
+        <div class="py-16 bg-bright-blue text-white">
+            <div class="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6">Ready to Make a Difference?</h2>
+                <p class="text-xl mb-8">Join thousands of donors who are helping children access quality education. Your contribution, no matter the size, creates lasting change.</p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <button onclick="showSection('donors')" class="bg-sunny-yellow text-gray-800 px-8 py-4 rounded-full font-semibold text-lg hover:bg-yellow-300 transition-colors">Start Donating</button>
+                    <button onclick="showSection('about')" class="border-2 border-white text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-white hover:text-bright-blue transition-colors">Learn More</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Donors Section -->
+    <section id="donors" class="section-hidden py-16">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <div class="text-6xl mb-4">🎁</div>
+                <h1 class="text-4xl font-bold text-gray-800 mb-4">Become a Donor</h1>
+                <p class="text-xl text-gray-600">Your generosity can transform a child's future. Fill out the form below to start making a difference.</p>
+            </div>
+           
+            <div class="bg-white rounded-xl shadow-lg p-8">
+                <form id="donor-form" class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Full Name *</label>
+                            <input type="text" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-bright-blue focus:border-transparent" placeholder="Enter your full name">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Email Address *</label>
+                            <input type="email" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-bright-blue focus:border-transparent" placeholder="your.email@example.com">
+                        </div>
+                    </div>
+                   
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Phone Number *</label>
+                            <input type="tel" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-bright-blue focus:border-transparent" placeholder="+1 (555) 123-4567">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Location</label>
+                            <input type="text" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-bright-blue focus:border-transparent" placeholder="City, State">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Donation Type *</label>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                            <label class="flex items-center p-4 border-2 border-gray-200 rounded-lg cursor-pointer hover:border-bright-blue transition-colors">
+                                <input type="checkbox" name="donation-type" value="school-kits" class="mr-3 text-bright-blue">
+                                <div class="text-center">
+                                    <div class="text-2xl mb-1">🎒</div>
+                                    <div class="text-sm font-medium">School Kits</div>
+                                </div>
+                            </label>
+                            <label class="flex items-center p-4 border-2 border-gray-200 rounded-lg cursor-pointer hover:border-bright-blue transition-colors">
+                                <input type="checkbox" name="donation-type" value="books" class="mr-3 text-bright-blue">
+                                <div class="text-center">
+                                    <div class="text-2xl mb-1">📚</div>
+                                    <div class="text-sm font-medium">Books</div>
+                                </div>
+                            </label>
+                            <label class="flex items-center p-4 border-2 border-gray-200 rounded-lg cursor-pointer hover:border-bright-blue transition-colors">
+                                <input type="checkbox" name="donation-type" value="uniforms" class="mr-3 text-bright-blue">
+                                <div class="text-center">
+                                    <div class="text-2xl mb-1">👕</div>
+                                    <div class="text-sm font-medium">Uniforms</div>
+                                </div>
+                            </label>
+                            <label class="flex items-center p-4 border-2 border-gray-200 rounded-lg cursor-pointer hover:border-bright-blue transition-colors">
+                                <input type="checkbox" name="donation-type" value="funds" class="mr-3 text-bright-blue">
+                                <div class="text-center">
+                                    <div class="text-2xl mb-1">💰</div>
+                                    <div class="text-sm font-medium">Funds</div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Additional Details</label>
+                        <textarea rows="4" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-bright-blue focus:border-transparent" placeholder="Tell us more about your donation (quantity, specific items, etc.)"></textarea>
+                    </div>
+
+                    <div class="text-center">
+                        <button type="submit" class="bg-bright-blue text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-blue-600 transition-colors">Submit Donation Form</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Donor Inspiration -->
+            <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-gradient-to-br from-sunny-yellow to-warm-orange text-white p-6 rounded-xl text-center">
+                    <div class="text-4xl mb-4">🌟</div>
+                    <h3 class="text-xl font-bold mb-2">Make Dreams Come True</h3>
+                    <p class="text-sm">Your donation helps children pursue their educational dreams</p>
+                </div>
+                <div class="bg-gradient-to-br from-fresh-green to-bright-blue text-white p-6 rounded-xl text-center">
+                    <div class="text-4xl mb-4">🤝</div>
+                    <h3 class="text-xl font-bold mb-2">Build Communities</h3>
+                    <p class="text-sm">Together we create stronger, more educated communities</p>
+                </div>
+                <div class="bg-gradient-to-br from-bright-blue to-purple-500 text-white p-6 rounded-xl text-center">
+                    <div class="text-4xl mb-4">🚀</div>
+                    <h3 class="text-xl font-bold mb-2">Create Future Leaders</h3>
+                    <p class="text-sm">Today's students are tomorrow's innovators and leaders</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Beneficiaries Section -->
+    <section id="beneficiaries" class="section-hidden py-16">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <div class="text-6xl mb-4">🎓</div>
+                <h1 class="text-4xl font-bold text-gray-800 mb-4">Request Educational Support</h1>
+                <p class="text-xl text-gray-600">We're here to help students, schools, and NGOs access the educational resources they need.</p>
+            </div>
+           
+            <div class="bg-white rounded-xl shadow-lg p-8">
+                <form id="beneficiary-form" class="space-y-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Request Type *</label>
+                        <select required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-fresh-green focus:border-transparent">
+                            <option value="">Select who you are</option>
+                            <option value="student">Individual Student</option>
+                            <option value="parent">Parent/Guardian</option>
+                            <option value="school">School Representative</option>
+                            <option value="ngo">NGO Representative</option>
+                        </select>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Full Name *</label>
+                            <input type="text" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-fresh-green focus:border-transparent" placeholder="Enter your full name">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Email Address *</label>
+                            <input type="email" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-fresh-green focus:border-transparent" placeholder="your.email@example.com">
+                        </div>
+                    </div>
+                   
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Phone Number *</label>
+                            <input type="tel" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-fresh-green focus:border-transparent" placeholder="+1 (555) 123-4567">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Location *</label>
+                            <input type="text" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-fresh-green focus:border-transparent" placeholder="City, State">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">What do you need? *</label>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                            <label class="flex items-center p-4 border-2 border-gray-200 rounded-lg cursor-pointer hover:border-fresh-green transition-colors">
+                                <input type="checkbox" name="requirement-type" value="school-kits" class="mr-3 text-fresh-green">
+                                <div class="text-center">
+                                    <div class="text-2xl mb-1">🎒</div>
+                                    <div class="text-sm font-medium">School Kits</div>
+                                </div>
+                            </label>
+                            <label class="flex items-center p-4 border-2 border-gray-200 rounded-lg cursor-pointer hover:border-fresh-green transition-colors">
+                                <input type="checkbox" name="requirement-type" value="books" class="mr-3 text-fresh-green">
+                                <div class="text-center">
+                                    <div class="text-2xl mb-1">📚</div>
+                                    <div class="text-sm font-medium">Books</div>
+                                </div>
+                            </label>
+                            <label class="flex items-center p-4 border-2 border-gray-200 rounded-lg cursor-pointer hover:border-fresh-green transition-colors">
+                                <input type="checkbox" name="requirement-type" value="uniforms" class="mr-3 text-fresh-green">
+                                <div class="text-center">
+                                    <div class="text-2xl mb-1">👕</div>
+                                    <div class="text-sm font-medium">Uniforms</div>
+                                </div>
+                            </label>
+                            <label class="flex items-center p-4 border-2 border-gray-200 rounded-lg cursor-pointer hover:border-fresh-green transition-colors">
+                                <input type="checkbox" name="requirement-type" value="funds" class="mr-3 text-fresh-green">
+                                <div class="text-center">
+                                    <div class="text-2xl mb-1">💰</div>
+                                    <div class="text-sm font-medium">Financial Aid</div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Quantity Needed</label>
+                            <input type="number" min="1" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-fresh-green focus:border-transparent" placeholder="How many items needed?">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Grade/Age Level</label>
+                            <input type="text" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-fresh-green focus:border-transparent" placeholder="e.g., Grade 5, Ages 10-12">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Tell us your story *</label>
+                        <textarea rows="4" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-fresh-green focus:border-transparent" placeholder="Help us understand your situation and specific needs..."></textarea>
+                    </div>
+
+                    <div class="text-center">
+                        <button type="submit" class="bg-fresh-green text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-green-600 transition-colors">Submit Request</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Success Stories -->
+            <div class="mt-16">
+                <h2 class="text-3xl font-bold text-center text-gray-800 mb-8">Success Stories</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="bg-gradient-to-br from-fresh-green to-bright-blue text-white p-6 rounded-xl">
+                        <div class="text-4xl mb-4">😊</div>
+                        <h3 class="text-xl font-bold mb-2">Maria's Journey</h3>
+                        <p class="text-sm">"Thanks to the school kit donation, I could finally attend classes with all the supplies I needed. Now I'm the top student in my grade!"</p>
+                    </div>
+                    <div class="bg-gradient-to-br from-warm-orange to-sunny-yellow text-white p-6 rounded-xl">
+                        <div class="text-4xl mb-4">🏫</div>
+                        <h3 class="text-xl font-bold mb-2">Sunshine Elementary</h3>
+                        <p class="text-sm">"We received 200 school kits that helped our entire 3rd grade class. The children's excitement was priceless!"</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- NGOs Section -->
+    <section id="ngos" class="section-hidden py-16">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <div class="text-6xl mb-4">🏢</div>
+                <h1 class="text-4xl font-bold text-gray-800 mb-4">NGO & School Partnership</h1>
+                <p class="text-xl text-gray-600">Register your organization to connect with donors and showcase your educational initiatives.</p>
+            </div>
+           
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <!-- Registration Form -->
+                <div class="bg-white rounded-xl shadow-lg p-8">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6">Register Your Organization</h2>
+                    <form id="ngo-form" class="space-y-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Organization Type *</label>
+                            <select required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-warm-orange focus:border-transparent">
+                                <option value="">Select organization type</option>
+                                <option value="ngo">Non-Governmental Organization (NGO)</option>
+                                <option value="school">Educational Institution</option>
+                                <option value="community">Community Center</option>
+                                <option value="charity">Charitable Foundation</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Organization Name *</label>
+                            <input type="text" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-warm-orange focus:border-transparent" placeholder="Enter organization name">
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Contact Person *</label>
+                                <input type="text" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-warm-orange focus:border-transparent" placeholder="Full name">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Position/Title *</label>
+                                <input type="text" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-warm-orange focus:border-transparent" placeholder="e.g., Director, Principal">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Email Address *</label>
+                                <input type="email" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-warm-orange focus:border-transparent" placeholder="organization@example.com">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Phone Number *</label>
+                                <input type="tel" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-warm-orange focus:border-transparent" placeholder="+1 (555) 123-4567">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Address *</label>
+                            <textarea rows="3" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-warm-orange focus:border-transparent" placeholder="Complete address with city, state, and postal code"></textarea>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Registration/License Number</label>
+                            <input type="text" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-warm-orange focus:border-transparent" placeholder="Official registration number">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Current Needs *</label>
+                            <div class="grid grid-cols-2 gap-4">
+                                <label class="flex items-center p-3 border-2 border-gray-200 rounded-lg cursor-pointer hover:border-warm-orange transition-colors">
+                                    <input type="checkbox" name="current-needs" value="school-kits" class="mr-3 text-warm-orange">
+                                    <span class="text-sm">School Kits</span>
+                                </label>
+                                <label class="flex items-center p-3 border-2 border-gray-200 rounded-lg cursor-pointer hover:border-warm-orange transition-colors">
+                                    <input type="checkbox" name="current-needs" value="books" class="mr-3 text-warm-orange">
+                                    <span class="text-sm">Books</span>
+                                </label>
+                                <label class="flex items-center p-3 border-2 border-gray-200 rounded-lg cursor-pointer hover:border-warm-orange transition-colors">
+                                    <input type="checkbox" name="current-needs" value="uniforms" class="mr-3 text-warm-orange">
+                                    <span class="text-sm">Uniforms</span>
+                                </label>
+                                <label class="flex items-center p-3 border-2 border-gray-200 rounded-lg cursor-pointer hover:border-warm-orange transition-colors">
+                                    <input type="checkbox" name="current-needs" value="funds" class="mr-3 text-warm-orange">
+                                    <span class="text-sm">Funding</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">About Your Organization *</label>
+                            <textarea rows="4" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-warm-orange focus:border-transparent" placeholder="Describe your mission, the communities you serve, and your educational programs..."></textarea>
+                        </div>
+
+                        <div class="text-center">
+                            <button type="submit" class="bg-warm-orange text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-orange-600 transition-colors">Register Organization</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Partner Organizations -->
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6">Our Partner Organizations</h2>
+                    <div class="space-y-6">
+                        <div class="bg-white rounded-xl shadow-lg p-6 card-hover">
+                            <div class="flex items-start space-x-4">
+                                <div class="text-4xl">🏫</div>
+                                <div class="flex-1">
+                                    <h3 class="text-xl font-bold text-gray-800 mb-2">Bright Future Elementary</h3>
+                                    <p class="text-gray-600 mb-3">Serving 500+ students in underserved communities. Currently needs school supplies for grades K-5.</p>
+                                    <div class="flex flex-wrap gap-2">
+                                        <span class="bg-bright-blue text-white px-3 py-1 rounded-full text-sm">School Kits Needed</span>
+                                        <span class="bg-fresh-green text-white px-3 py-1 rounded-full text-sm">Books Required</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-xl shadow-lg p-6 card-hover">
+                            <div class="flex items-start space-x-4">
+                                <div class="text-4xl">🤝</div>
+                                <div class="flex-1">
+                                    <h3 class="text-xl font-bold text-gray-800 mb-2">Hope & Learn Foundation</h3>
+                                    <p class="text-gray-600 mb-3">NGO focused on rural education. Provides learning support to 1000+ children across 20 villages.</p>
+                                    <div class="flex flex-wrap gap-2">
+                                        <span class="bg-warm-orange text-white px-3 py-1 rounded-full text-sm">Uniforms Needed</span>
+                                        <span class="bg-sunny-yellow text-gray-800 px-3 py-1 rounded-full text-sm">Funding Required</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-xl shadow-lg p-6 card-hover">
+                            <div class="flex items-start space-x-4">
+                                <div class="text-4xl">📚</div>
+                                <div class="flex-1">
+                                    <h3 class="text-xl font-bold text-gray-800 mb-2">Community Learning Center</h3>
+                                    <p class="text-gray-600 mb-3">After-school program supporting 200+ students with homework help and skill development.</p>
+                                    <div class="flex flex-wrap gap-2">
+                                        <span class="bg-purple-500 text-white px-3 py-1 rounded-full text-sm">Books & Supplies</span>
+                                        <span class="bg-fresh-green text-white px-3 py-1 rounded-full text-sm">Educational Materials</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 bg-gradient-to-r from-bright-blue to-fresh-green text-white p-6 rounded-xl text-center">
+                        <h3 class="text-xl font-bold mb-2">Join Our Network</h3>
+                        <p class="mb-4">Connect with donors, share your impact, and access resources to support your educational mission.</p>
+                        <div class="text-2xl">🌟</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Us Section -->
+    <section id="about" class="section-hidden py-16">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <div class="text-6xl mb-4">💡</div>
+                <h1 class="text-4xl font-bold text-gray-800 mb-4">About Our Mission</h1>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">We believe every child deserves access to quality education, regardless of their economic background. Our platform connects generous donors with students and schools in need.</p>
+            </div>
+
+            <!-- Mission & Vision -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
+                <div class="bg-gradient-to-br from-bright-blue to-fresh-green text-white p-8 rounded-xl">
+                    <div class="text-5xl mb-4">🎯</div>
+                    <h2 class="text-2xl font-bold mb-4">Our Mission</h2>
+                    <p class="text-lg">To eliminate educational barriers by creating a seamless platform that connects donors with students, schools, and NGOs in need of educational resources. We strive to ensure that no child's education is limited by lack of basic school supplies.</p>
+                </div>
+                <div class="bg-gradient-to-br from-warm-orange to-sunny-yellow text-white p-8 rounded-xl">
+                    <div class="text-5xl mb-4">🔮</div>
+                    <h2 class="text-2xl font-bold mb-4">Our Vision</h2>
+                    <p class="text-lg">A world where every child has access to the educational tools they need to succeed. We envision communities where education is prioritized, supported, and accessible to all, creating a brighter future for generations to come.</p>
+                </div>
+            </div>
+
+            <!-- How We Started -->
+            <div class="bg-white rounded-xl shadow-lg p-8 mb-16">
+                <div class="text-center mb-8">
+                    <div class="text-5xl mb-4">📖</div>
+                    <h2 class="text-3xl font-bold text-gray-800 mb-4">How We Started</h2>
+                </div>
+                <div class="max-w-4xl mx-auto text-lg text-gray-600 space-y-4">
+                    <p>The School Kit Donation Manager was born from a simple observation: many children in our communities were missing school or struggling academically simply because they lacked basic supplies like notebooks, pencils, and backpacks.</p>
+                    <p>Our founder, while volunteering at a local school, noticed students sharing single pencils and writing on scraps of paper. Meanwhile, many community members wanted to help but didn't know how to connect with those in need effectively.</p>
+                    <p>This sparked the idea for a platform that could bridge this gap - connecting the generosity of donors with the specific needs of students, schools, and educational organizations. What started as a small community initiative has now grown into a comprehensive platform serving thousands of students across multiple regions.</p>
+                </div>
+            </div>
+
+            <!-- Our Impact -->
+            <div class="mb-16">
+                <div class="text-center mb-8">
+                    <div class="text-5xl mb-4">📊</div>
+                    <h2 class="text-3xl font-bold text-gray-800 mb-4">Our Growing Impact</h2>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                    <div class="bg-bright-blue text-white p-6 rounded-xl text-center">
+                        <div class="text-3xl font-bold mb-2">2,500+</div>
+                        <div class="text-sm">School Kits Donated</div>
+                    </div>
+                    <div class="bg-fresh-green text-white p-6 rounded-xl text-center">
+                        <div class="text-3xl font-bold mb-2">5,000+</div>
+                        <div class="text-sm">Students Helped</div>
+                    </div>
+                    <div class="bg-warm-orange text-white p-6 rounded-xl text-center">
+                        <div class="text-3xl font-bold mb-2">150+</div>
+                        <div class="text-sm">Partner Schools</div>
+                    </div>
+                    <div class="bg-purple-500 text-white p-6 rounded-xl text-center">
+                        <div class="text-3xl font-bold mb-2">1,200+</div>
+                        <div class="text-sm">Active Donors</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Our Team -->
+            <div class="text-center mb-12">
+                <div class="text-5xl mb-4">👥</div>
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Meet Our Team</h2>
+                <p class="text-xl text-gray-600">Passionate individuals working together to make education accessible for all</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-white rounded-xl shadow-lg p-6 text-center card-hover">
+                    <div class="text-6xl mb-4">👨‍💼</div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Alex Johnson</h3>
+                    <p class="text-bright-blue font-medium mb-2">Founder & CEO</p>
+                    <p class="text-gray-600 text-sm">Former educator with 10+ years of experience in community development and educational initiatives.</p>
+                </div>
+                <div class="bg-white rounded-xl shadow-lg p-6 text-center card-hover">
+                    <div class="text-6xl mb-4">👩‍💻</div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Sarah Chen</h3>
+                    <p class="text-fresh-green font-medium mb-2">Technology Director</p>
+                    <p class="text-gray-600 text-sm">Software engineer passionate about using technology to solve social problems and improve access to education.</p>
+                </div>
+                <div class="bg-white rounded-xl shadow-lg p-6 text-center card-hover">
+                    <div class="text-6xl mb-4">👨‍🏫</div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Michael Rodriguez</h3>
+                    <p class="text-warm-orange font-medium mb-2">Community Outreach</p>
+                    <p class="text-gray-600 text-sm">Dedicated to building partnerships with schools, NGOs, and community organizations to maximize our impact.</p>
+                </div>
+            </div>
+
+            <!-- Call to Action -->
+            <div class="mt-16 bg-gradient-to-r from-bright-blue to-fresh-green text-white p-8 rounded-xl text-center">
+                <h2 class="text-3xl font-bold mb-4">Join Our Mission</h2>
+                <p class="text-xl mb-6">Whether you're a donor, educator, or someone who believes in the power of education, there's a place for you in our community.</p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <button onclick="showSection('donors')" class="bg-white text-bright-blue px-6 py-3 rounded-full font-semibold hover:bg-gray-100 transition-colors">Start Donating</button>
+                    <button onclick="showSection('contact')" class="border-2 border-white text-white px-6 py-3 rounded-full font-semibold hover:bg-white hover:text-bright-blue transition-colors">Get In Touch</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section-hidden py-16">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <div class="text-6xl mb-4">📞</div>
+                <h1 class="text-4xl font-bold text-gray-800 mb-4">Get In Touch</h1>
+                <p class="text-xl text-gray-600">Have questions, suggestions, or want to learn more about our mission? We'd love to hear from you!</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <!-- Contact Form -->
+                <div class="bg-white rounded-xl shadow-lg p-8">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6">Send us a Message</h2>
+                    <form id="contact-form" class="space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">First Name *</label>
+                                <input type="text" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-bright-blue focus:border-transparent" placeholder="Your first name">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Last Name *</label>
+                                <input type="text" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-bright-blue focus:border-transparent" placeholder="Your last name">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Email Address *</label>
+                            <input type="email" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-bright-blue focus:border-transparent" placeholder="your.email@example.com">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
+                            <input type="tel" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-bright-blue focus:border-transparent" placeholder="+1 (555) 123-4567">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Subject *</label>
+                            <select required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-bright-blue focus:border-transparent">
+                                <option value="">Select a subject</option>
+                                <option value="general">General Inquiry</option>
+                                <option value="donation">Donation Questions</option>
+                                <option value="partnership">Partnership Opportunities</option>
+                                <option value="technical">Technical Support</option>
+                                <option value="feedback">Feedback & Suggestions</option>
+                                <option value="media">Media & Press</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Message *</label>
+                            <textarea rows="5" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-bright-blue focus:border-transparent" placeholder="Tell us how we can help you..."></textarea>
+                        </div>
+
+                        <div class="text-center">
+                            <button type="submit" class="bg-bright-blue text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-blue-600 transition-colors">Send Message</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Contact Information -->
+                <div class="space-y-8">
+                    <div class="bg-gradient-to-br from-bright-blue to-fresh-green text-white p-6 rounded-xl">
+                        <div class="text-4xl mb-4">📍</div>
+                        <h3 class="text-xl font-bold mb-2">Visit Our Office</h3>
+                        <p class="mb-2">123 Education Street</p>
+                        <p class="mb-2">Learning District, LD 12345</p>
+                        <p>United States</p>
+                    </div>
+
+                    <div class="bg-gradient-to-br from-warm-orange to-sunny-yellow text-white p-6 rounded-xl">
+                        <div class="text-4xl mb-4">📧</div>
+                        <h3 class="text-xl font-bold mb-2">Email Us</h3>
+                        <p class="mb-2">General: info@schoolkitdonation.org</p>
+                        <p class="mb-2">Donations: donate@schoolkitdonation.org</p>
+                        <p>Support: support@schoolkitdonation.org</p>
+                    </div>
+
+                    <div class="bg-gradient-to-br from-fresh-green to-bright-blue text-white p-6 rounded-xl">
+                        <div class="text-4xl mb-4">📱</div>
+                        <h3 class="text-xl font-bold mb-2">Call Us</h3>
+                        <p class="mb-2">Main Office: +1 (555) 123-4567</p>
+                        <p class="mb-2">Donor Support: +1 (555) 123-4568</p>
+                        <p>Emergency: +1 (555) 123-4569</p>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-lg p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4">Office Hours</h3>
+                        <div class="space-y-2 text-gray-600">
+                            <div class="flex justify-between">
+                                <span>Monday - Friday:</span>
+                                <span>9:00 AM - 6:00 PM</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>Saturday:</span>
+                                <span>10:00 AM - 4:00 PM</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>Sunday:</span>
+                                <span>Closed</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-gradient-to-r from-purple-500 to-pink-500 text-white p-6 rounded-xl text-center">
+                        <div class="text-4xl mb-4">⚡</div>
+                        <h3 class="text-xl font-bold mb-2">Quick Response</h3>
+                        <p class="text-sm">We typically respond to all inquiries within 24 hours during business days.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="text-2xl font-bold mb-4">📚 School Kit Donation Manager</div>
+                    <p class="text-gray-300 mb-4">Connecting generous hearts with educational needs to build a brighter future for all children.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-300 hover:text-white transition-colors">📘</a>
+                        <a href="#" class="text-gray-300 hover:text-white transition-colors">🐦</a>
+                        <a href="#" class="text-gray-300 hover:text-white transition-colors">📷</a>
+                        <a href="#" class="text-gray-300 hover:text-white transition-colors">💼</a>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><button onclick="showSection('home')" class="text-gray-300 hover:text-white transition-colors">Home</button></li>
+                        <li><button onclick="showSection('about')" class="text-gray-300 hover:text-white transition-colors">About Us</button></li>
+                        <li><button onclick="showSection('donors')" class="text-gray-300 hover:text-white transition-colors">Become a Donor</button></li>
+                        <li><button onclick="showSection('beneficiaries')" class="text-gray-300 hover:text-white transition-colors">Request Help</button></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">For Organizations</h3>
+                    <ul class="space-y-2">
+                        <li><button onclick="showSection('ngos')" class="text-gray-300 hover:text-white transition-colors">Register NGO/School</button></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Partnership Program</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Impact Reports</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Resources</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Support</h3>
+                    <ul class="space-y-2">
+                        <li><button onclick="showSection('contact')" class="text-gray-300 hover:text-white transition-colors">Contact Us</button></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors">FAQ</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Privacy Policy</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center">
+                <p class="text-gray-300">&copy; 2024 School Kit Donation Manager. All rights reserved. Made with ❤️ for education.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Navigation functionality
+        function showSection(sectionId) {
+            // Hide all sections
+            const sections = document.querySelectorAll('section');
+            sections.forEach(section => {
+                section.classList.remove('section-visible');
+                section.classList.add('section-hidden');
+            });
+           
+            // Show selected section
+            const targetSection = document.getElementById(sectionId);
+            if (targetSection) {
+                targetSection.classList.remove('section-hidden');
+                targetSection.classList.add('section-visible');
+            }
+           
+            // Update navigation active state
+            const navButtons = document.querySelectorAll('.nav-btn');
+            navButtons.forEach(btn => {
+                btn.classList.remove('text-bright-blue', 'font-bold');
+                btn.classList.add('text-gray-700');
+            });
+           
+            // Close mobile menu if open
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.add('hidden');
+           
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        }
+
+        // Form submissions
+        document.getElementById('donor-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Thank you for your generous donation offer! We will contact you within 24 hours to coordinate the donation process. Your kindness will make a real difference in a child\'s education.');
+            this.reset();
+        });
+
+        document.getElementById('beneficiary-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Your request has been submitted successfully! Our team will review your application and match you with available donors. We will contact you within 48 hours with updates.');
+            this.reset();
+        });
+
+        document.getElementById('ngo-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Thank you for registering your organization! We will verify your information and contact you within 3-5 business days to complete the partnership process.');
+            this.reset();
+        });
+
+        document.getElementById('contact-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Thank you for reaching out! We have received your message and will respond within 24 hours during business days.');
+            this.reset();
+        });
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            showSection('home');
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97fe194025474010',t:'MTc1ODAwMTk1Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
