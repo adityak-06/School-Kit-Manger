@@ -3,7 +3,7 @@ import { Octokit } from "https://cdn.skypack.dev/@octokit/rest";
 const owner = "adityak-06";
 const repo = "School-Kit-Manger";
 
-const token = "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";
+const token = process.env.GITHUB_PAT;
 
 const octokit = new Octokit({ auth: token });
 
