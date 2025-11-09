@@ -797,72 +797,73 @@
         </div>
     </footer>
 
-    <script>
-        // Navigation functionality
-        function showSection(sectionId) {
-            // Hide all sections
-            const sections = document.querySelectorAll('section');
-            sections.forEach(section => {
-                section.classList.remove('section-visible');
-                section.classList.add('section-hidden');
+    <script type="module">
+        import { addDonation, addRequest } from "./github.js";
+    
+        window.showSection = function(sectionId) {
+            document.querySelectorAll("section").forEach(section => {
+                section.classList.add("section-hidden");
+                section.classList.remove("section-visible");
             });
-           
-            // Show selected section
-            const targetSection = document.getElementById(sectionId);
-            if (targetSection) {
-                targetSection.classList.remove('section-hidden');
-                targetSection.classList.add('section-visible');
+    
+            const target = document.getElementById(sectionId);
+            if (target) {
+                target.classList.remove("section-hidden");
+                target.classList.add("section-visible");
             }
-           
-            // Update navigation active state
-            const navButtons = document.querySelectorAll('.nav-btn');
-            navButtons.forEach(btn => {
-                btn.classList.remove('text-bright-blue', 'font-bold');
-                btn.classList.add('text-gray-700');
-            });
-           
-            // Close mobile menu if open
-            const mobileMenu = document.getElementById('mobile-menu');
-            mobileMenu.classList.add('hidden');
-           
-            // Scroll to top
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
+    
+            document.getElementById("mobile-menu").classList.add("hidden");
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        };
+    
+        window.toggleMobileMenu = function() {
+            document.getElementById("mobile-menu").classList.toggle("hidden");
+        };
 
-        function toggleMobileMenu() {
-            const mobileMenu = document.getElementById('mobile-menu');
-            mobileMenu.classList.toggle('hidden');
-        }
-
-        // Form submissions
-        document.getElementById('donor-form').addEventListener('submit', function(e) {
+        document.getElementById("donor-form").addEventListener("submit", async function(e) {
             e.preventDefault();
-            alert('Thank you for your generous donation offer! We will contact you within 24 hours to coordinate the donation process. Your kindness will make a real difference in a child\'s education.');
+    
+            const donationTypes = [...document.querySelectorAll("input[name='donation-type']:checked")].map(i => i.value);
+    
+            const entry = {
+                name: this.querySelector("input[placeholder='Enter your full name']").value,
+                email: this.querySelector("input[placeholder='your.email@example.com']").value,
+                phone: this.querySelector("input[placeholder='+1 (555) 123-4567']").value,
+                location: this.querySelector("input[placeholder='City, State']").value,
+                donationTypes,
+                details: this.querySelector("textarea").value,
+                timestamp: new Date().toISOString()
+            };
+    
+            await addDonation(entry);
+            alert("✅ Donation recorded! Thank you ❤️");
             this.reset();
         });
-
-        document.getElementById('beneficiary-form').addEventListener('submit', function(e) {
+    
+        document.getElementById("beneficiary-form").addEventListener("submit", async function(e) {
             e.preventDefault();
-            alert('Your request has been submitted successfully! Our team will review your application and match you with available donors. We will contact you within 48 hours with updates.');
+    
+            const requestedItems = [...document.querySelectorAll("input[name='requirement-type']:checked")].map(i => i.value);
+    
+            const entry = {
+                requesterType: this.querySelector("select").value,
+                name: this.querySelector("input[placeholder='Enter your full name']").value,
+                email: this.querySelector("input[placeholder='your.email@example.com']").value,
+                phone: this.querySelector("input[placeholder='+1 (555) 123-4567']").value,
+                location: this.querySelector("input[placeholder='City, State']").value,
+                requestedItems,
+                quantity: this.querySelector("input[placeholder='How many items needed?']").value,
+                grade: this.querySelector("input[placeholder='e.g., Grade 5, Ages 10-12']").value,
+                story: this.querySelector("textarea").value,
+                timestamp: new Date().toISOString()
+            };
+    
+            await addRequest(entry);
+            alert("✅ Request submitted successfully!");
             this.reset();
         });
-
-        document.getElementById('ngo-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            alert('Thank you for registering your organization! We will verify your information and contact you within 3-5 business days to complete the partnership process.');
-            this.reset();
-        });
-
-        document.getElementById('contact-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            alert('Thank you for reaching out! We have received your message and will respond within 24 hours during business days.');
-            this.reset();
-        });
-
-        // Initialize page
-        document.addEventListener('DOMContentLoaded', function() {
-            showSection('home');
-        });
-    </script>
+    
+        document.addEventListener("DOMContentLoaded", () => window.showSection("home"));
+    </script>       
 <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97fe194025474010',t:'MTc1ODAwMTk1Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
